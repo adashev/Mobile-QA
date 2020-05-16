@@ -7,4 +7,11 @@ public class MainClassTest {
       MainClass main = new MainClass();
       Assert.assertTrue("метод getLocalNumber неверно рассчитывает сумму", main.getLocalNumber() == 12);
    }
+
+   @Test
+   public void testGetClassNumber() {
+      MainClass main = new MainClass();
+      Assert.assertTrue("метод getClassNumber возвращает число меньше 45", main.getClassNumber() > 45);
+   }
+
 }
