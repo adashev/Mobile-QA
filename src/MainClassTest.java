@@ -17,7 +17,7 @@ public class MainClassTest {
    @Test
    public void testGetClassString() {
       Assert.assertTrue("getClassString() возвращает строку, не содержащую подстроку hello или Hello", main.getClassString().startsWith("hello")
-            || main.getClassString().startsWith("Hyllo"));
+            || main.getClassString().startsWith("Hello"));
    }
 
 }
