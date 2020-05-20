@@ -6,7 +6,7 @@ public class MainClassTest {
 
    @Test
    public void testGetLocalNumber() {
-      Assert.assertTrue("getLocalNumber() неверно рассчитывает сумму", main.getLocalNumber() == 12);
+      Assert.assertTrue("getLocalNumber() неверно рассчитывает сумму", main.getLocalNumber() == 14);
    }
 
    @Test
