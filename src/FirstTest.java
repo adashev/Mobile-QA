@@ -31,9 +31,13 @@ public class FirstTest {
    }
 
    @Test
-   public void firstTest() {
-      WebElement element = driver.findElementByXPath("//*[contains(@text, 'Search Wikipedia')]");
-      element.click();
+   public void firstTest() throws InterruptedException {
+      WebElement element_to_init_search = driver.findElementByXPath("//*[contains(@text, 'Search Wikipedia')]");
+      element_to_init_search.click();
+      Thread.sleep(2000);
+      WebElement element_to_enter_search_line = driver.findElementByXPath("//*[contains(@text, 'Search…')]");
+      element_to_enter_search_line.sendKeys("Appium");
+      Thread.sleep(2500);
 //      System.out.println("First test run");
    }
 }
