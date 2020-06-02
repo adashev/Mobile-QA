@@ -43,6 +43,8 @@ public class FirstTest {
       element_to_enter_search_line.sendKeys("Java");
       waitForElementPresentByXPath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Object-oriented programming language']",
             "Cannot find Object-oriented programming language", 15);
+      waitForElementPresentByXPath("//*[@text='Wikimedia list article']",
+            "Cannot find Wikimedia list article", 10);
       Thread.sleep(2500);
    }
 
