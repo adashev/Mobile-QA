@@ -35,12 +35,14 @@ public class FirstTest {
 
    @Test
    public void firstTest() throws InterruptedException {
-      WebElement element_to_init_search = driver.findElementByXPath("//*[contains(@text, 'Search Wikipedia')]");
-      element_to_init_search.click();
-      WebElement element_to_enter_search_line = waitForElementPresentByXPath(
+      waitForElementAndClick("//*[contains(@text, 'Search Wikipedia')]", "Cannot find Search Wikipedia", 5);
+      /*WebElement element_to_init_search = driver.findElementByXPath("//*[contains(@text, 'Search Wikipedia')]");
+      element_to_init_search.click();*/
+      waitForElementAndSendKeys("//*[contains(@text, 'Search…')]", "Java", "Cannot find Search…", 5);
+      /*WebElement element_to_enter_search_line = waitForElementPresentByXPath(
             "//*[contains(@text, 'Search…')]",
             "Cannot find search input");
-      element_to_enter_search_line.sendKeys("Java");
+      element_to_enter_search_line.sendKeys("Java");*/
       waitForElementPresentByXPath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Object-oriented programming language']",
             "Cannot find Object-oriented programming language", 15);
       waitForElementPresentByXPath("//*[@text='Wikimedia list article']",
@@ -56,8 +58,19 @@ public class FirstTest {
    }
 
    private WebElement waitForElementPresentByXPath(String xpath, String error_message) {
-
       return waitForElementPresentByXPath(xpath, error_message, 5);
+   }
+
+   private WebElement waitForElementAndClick(String xpath, String error_message, long timeout) {
+      WebElement element = waitForElementPresentByXPath(xpath, error_message, timeout);
+      element.click();
+      return element;
+   }
+
+   private WebElement waitForElementAndSendKeys(String xpath, String value, String error_message, long timeout) {
+      WebElement element = waitForElementPresentByXPath(xpath, error_message, timeout);
+      element.sendKeys(value);
+      return element;
    }
 
 }
