@@ -3,8 +3,11 @@ import io.appium.java_client.android.AndroidDriver;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.URL;
 
@@ -34,10 +37,25 @@ public class FirstTest {
    public void firstTest() throws InterruptedException {
       WebElement element_to_init_search = driver.findElementByXPath("//*[contains(@text, 'Search Wikipedia')]");
       element_to_init_search.click();
-      Thread.sleep(2000);
-      WebElement element_to_enter_search_line = driver.findElementByXPath("//*[contains(@text, 'Search…')]");
-      element_to_enter_search_line.sendKeys("Appium");
+      WebElement element_to_enter_search_line = waitForElementPresentByXPath(
+            "//*[contains(@text, 'Search…')]",
+            "Cannot find search input");
+      element_to_enter_search_line.sendKeys("Java");
+      waitForElementPresentByXPath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Object-oriented programming language']",
+            "Cannot find Object-oriented programming language", 15);
       Thread.sleep(2500);
-//      System.out.println("First test run");
    }
+
+   private WebElement waitForElementPresentByXPath(String xpath, String error_message, long timeout) {
+      WebDriverWait wait = new WebDriverWait(driver, timeout);
+      wait.withMessage(error_message + "\n");
+      By by = By.xpath(xpath);
+      return wait.until(ExpectedConditions.presenceOfElementLocated(by));
+   }
+
+   private WebElement waitForElementPresentByXPath(String xpath, String error_message) {
+
+      return waitForElementPresentByXPath(xpath, error_message, 5);
+   }
+
 }
