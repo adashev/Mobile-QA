@@ -45,9 +45,9 @@ public class FirstTest {
 
    @Test
    public void firstCancelSearch() {
-      waitForElementAndClick(By.xpath("org.wikipedia:id/search_container"), "Cannot find Search Wikipedia", 10);
-      waitForElementAndClick(By.id("org.wikipedia:id/search_close_btn"), "Cannot find X", 10);
-      waitForElementNotPresent(By.id("org.wikipedia:id/search_close_btn"), "X is still present on the page", 5);
+      waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/search_container']"), "Cannot find Search Wikipedia", 10);
+      waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/search_close_btn']"), "Cannot find X", 10);
+      waitForElementNotPresent(By.xpath("//*[@resource-id='org.wikipedia:id/search_close_btn']"), "X is still present on the page", 5);
    }
 
    private WebElement waitForElementPresent(By by, String error_message, long timeout) {
