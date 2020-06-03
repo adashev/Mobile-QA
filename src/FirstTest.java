@@ -41,7 +41,14 @@ public class FirstTest {
             "Cannot find Object-oriented programming language", 15);
       waitForElementPresentByXPath("//*[@text='Wikimedia list article']",
             "Cannot find Wikimedia list article", 10);
-      Thread.sleep(2000);
+   }
+
+   @Test
+   public void firstCancelSearch() {
+      waitForElementByIdAndClick("org.wikipedia:id/search_container", "Cannot find Search Wikipedia", 10);
+      //org.wikipedia:id/search_close_btn
+      waitForElementByIdAndClick("org.wikipedia:id/search_close_btn", "Cannot find X", 10);
+      waitForElementNotPresent("org.wikipedia:id/search_close_btn", "X is still present on the page", 5);
    }
 
    private WebElement waitForElementPresentByXPath(String xpath, String error_message, long timeout) {
@@ -49,6 +56,19 @@ public class FirstTest {
       wait.withMessage(error_message + "\n");
       By by = By.xpath(xpath);
       return wait.until(ExpectedConditions.presenceOfElementLocated(by));
+   }
+
+   private WebElement waitForElementPresentById(String id, String error_message, long timeout) {
+      WebDriverWait wait = new WebDriverWait(driver, timeout);
+      wait.withMessage(error_message + "\n");
+      By by = By.xpath(String.format("//*[@resource-id='%s']", id));
+      return wait.until(ExpectedConditions.presenceOfElementLocated(by));
+   }
+
+   private WebElement waitForElementByIdAndClick(String id, String error_message, long timeout) {
+      WebElement element = waitForElementPresentById(id, error_message, timeout);
+      element.click();
+      return element;
    }
 
    private WebElement waitForElementPresentByXPath(String xpath, String error_message) {
@@ -65,6 +85,13 @@ public class FirstTest {
       WebElement element = waitForElementPresentByXPath(xpath, error_message, timeout);
       element.sendKeys(value);
       return element;
+   }
+
+   private boolean waitForElementNotPresent(String id, String error_message, long timeout) {
+      WebDriverWait wait = new WebDriverWait(driver, timeout);
+      wait.withMessage(error_message + "\n");
+      By by = By.id(id);
+      return wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
    }
 
 }
