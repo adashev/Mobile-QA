@@ -36,7 +36,7 @@ public class FirstTest {
    @Test
    public void firstTest() {
       waitForElementAndClick(By.xpath("//*[contains(@text, 'Search Wikipedia')]"), "Cannot find Search Wikipedia", 5);
-      waitForElementAndSendKeys(By.xpath("//*[contains(@text, 'Search…')]"), "Java", "Cannot find Search…", 5);
+      waitForElementAndSendKeys(By.xpath("//*[contains(@text, 'Search…')]"), "Java", "Cannot find search field", 5);
       waitForElementPresent(By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Object-oriented programming language']"),
             "Cannot find Object-oriented programming language", 15);
       waitForElementPresent(By.xpath("//*[@text='Wikimedia list article']"),
@@ -46,6 +46,9 @@ public class FirstTest {
    @Test
    public void firstCancelSearch() {
       waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/search_container']"), "Cannot find Search Wikipedia", 10);
+      waitForElementAndSendKeys(By.xpath("//*[contains(@text, 'Search…')]"), "Java", "Cannot find search field", 5);
+      waitForElementAndClear(By.xpath("//*[@resource-id='org.wikipedia:id/search_src_text']"), "Cannot find search field", 5);
+
       waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/search_close_btn']"), "Cannot find X", 10);
       waitForElementNotPresent(By.xpath("//*[@resource-id='org.wikipedia:id/search_close_btn']"), "X is still present on the page", 5);
    }
@@ -76,6 +79,12 @@ public class FirstTest {
       WebDriverWait wait = new WebDriverWait(driver, timeout);
       wait.withMessage(error_message + "\n");
       return wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
+   }
+
+   private WebElement waitForElementAndClear(By by, String error_message, long timeout) {
+      WebElement element = waitForElementPresent(by, error_message, timeout);
+      element.clear();
+      return element;
    }
 
 }
