@@ -64,6 +64,14 @@ public class FirstTest {
     Assert.assertEquals("Unexpected title!", "Java (programming language)", articleTitle);
   }
 
+  @Test
+  public void testPresentTextSearch() {
+    waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/search_container']"), "Cannot find Search Wikipedia", 10);
+    WebElement searchSrcTextElement = waitForElementPresent(By.xpath("//*[@resource-id='org.wikipedia:id/search_src_text']"),
+          "Cannot find search_src_text element", 10);
+    Assert.assertEquals("Unexpected text of element!", "Search…", searchSrcTextElement.getText());
+  }
+
    private WebElement waitForElementPresent(By by, String error_message, long timeout) {
       WebDriverWait wait = new WebDriverWait(driver, timeout);
       wait.withMessage(error_message + "\n");
