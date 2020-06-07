@@ -83,12 +83,12 @@ public class FirstTest {
       WebElement searchSrcTextElement = waitForPresentTextSearch();
       searchSrcTextElement.sendKeys("Java");
       List<WebElement> articles = driver.findElements(By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_title']"));
-      Assert.assertTrue("not all headers contain the word 'Java'", isWordPresentInSearch(articles));
+      Assert.assertTrue("Not all headers contain the word 'Java'", isWordPresentInSearch(articles));
    }
 
    private boolean isWordPresentInSearch(List<WebElement> articles) {
-      for (WebElement artcl : articles) {
-         if (!artcl.getText().contains("Java")) {
+      for (WebElement artc : articles) {
+         if (!artc.getText().toLowerCase().contains("java")) {
             return false;
          }
       }
