@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.URL;
+import java.util.List;
 
 public class FirstTest {
    private AppiumDriver driver;
@@ -45,7 +46,7 @@ public class FirstTest {
    }
 
    @Test
-   public void firstCancelSearch() {
+   public void testCancelSearch() {
       waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/search_container']"), "Cannot find Search Wikipedia", 10);
       waitForElementAndSendKeys(By.xpath("//*[contains(@text, 'Search…')]"), "Java", "Cannot find search field", 5);
       waitForElementAndClear(By.xpath("//*[@resource-id='org.wikipedia:id/search_src_text']"), "Cannot find search field", 5);
@@ -54,7 +55,7 @@ public class FirstTest {
    }
 
   @Test
-  public void firstCompareArticleTitle() {
+  public void testCompareArticleTitle() {
     waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/search_container']"), "Cannot find Search Wikipedia", 10);
     waitForElementAndSendKeys(By.xpath("//*[contains(@text, 'Search…')]"), "Java", "Cannot find search field", 5);
     waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Object-oriented programming language']"),
@@ -64,6 +65,23 @@ public class FirstTest {
     String articleTitle = titleElement.getText();
     Assert.assertEquals("Unexpected title!", "Java (programming language)", articleTitle);
   }
+
+   @Test
+   public void testCancelSearchEx3() {
+      waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/search_container']"), "Cannot find Search Wikipedia", 10);
+      waitForElementAndSendKeys(By.xpath("//*[contains(@text, 'Search…')]"), "Selenium", "Cannot find search field", 5);
+      waitForElementsPresent(By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_title']"),
+            "Cannot find articles", 10);
+      waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/search_close_btn']"), "Cannot find X", 10);
+      List<WebElement> articles = driver.findElements(By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_title']"));
+      Assert.assertTrue("Articles aren't missing!", articles.isEmpty());
+   }
+
+   private List<WebElement> waitForElementsPresent(By by, String error_message, long timeout) {
+      WebDriverWait wait = new WebDriverWait(driver, timeout);
+      wait.withMessage(error_message + "\n");
+      return wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(by));
+   }
 
    public WebElement waitForPresentTextSearch() {
     WebElement searchSrcTextElement = waitForElementPresent(By.xpath("//*[@resource-id='org.wikipedia:id/search_src_text']"),
