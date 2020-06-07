@@ -37,10 +37,11 @@ public class FirstTest {
    @Test
    public void firstTest() {
       waitForElementAndClick(By.xpath("//*[contains(@text, 'Search Wikipedia')]"), "Cannot find Search Wikipedia", 5);
-      waitForElementAndSendKeys(By.xpath("//*[contains(@text, 'Search…')]"), "Java", "Cannot find search field", 5);
+      WebElement searchSrcTextElement = waitForPresentTextSearch();
+      searchSrcTextElement.sendKeys("Java");
       waitForElementPresent(By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Object-oriented programming language']"),
             "Cannot find Object-oriented programming language", 15);
-     waitForElementPresent(By.xpath("//*[@text='Wikimedia list article']"), "Cannot find Wikimedia list article", 10);
+      waitForElementPresent(By.xpath("//*[@text='Wikimedia list article']"), "Cannot find Wikimedia list article", 10);
    }
 
    @Test
@@ -64,12 +65,11 @@ public class FirstTest {
     Assert.assertEquals("Unexpected title!", "Java (programming language)", articleTitle);
   }
 
-  @Test
-  public void testPresentTextSearch() {
-    waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/search_container']"), "Cannot find Search Wikipedia", 10);
+   public WebElement waitForPresentTextSearch() {
     WebElement searchSrcTextElement = waitForElementPresent(By.xpath("//*[@resource-id='org.wikipedia:id/search_src_text']"),
           "Cannot find search_src_text element", 10);
     Assert.assertEquals("Unexpected text of element!", "Search…", searchSrcTextElement.getText());
+      return searchSrcTextElement;
   }
 
    private WebElement waitForElementPresent(By by, String error_message, long timeout) {
