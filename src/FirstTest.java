@@ -1,4 +1,5 @@
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 import org.junit.After;
 import org.junit.Assert;
@@ -84,6 +85,20 @@ public class FirstTest {
       searchSrcTextElement.sendKeys("Java");
       List<WebElement> articles = driver.findElements(By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_title']"));
       Assert.assertTrue("Not all headers contain the word 'Java'", isWordPresentInSearch(articles));
+   }
+
+   @Test
+   public void testSwipeArticle() {
+      waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/search_container']"), "Cannot find Search Wikipedia", 10);
+      waitForElementAndSendKeys(By.xpath("//*[contains(@text, 'Search…')]"), "Java", "Cannot find search field", 5);
+      waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Object-oriented programming language']"),
+            "Cannot find Object-oriented programming language", 5);
+      waitForElementPresent(By.xpath("//*[@resource-id='org.wikipedia:id/view_page_title_text']"), "Cannot find article title", 10);
+
+   }
+
+   protected void swipeUp(int timeOfSwipe) {
+      TouchAction action = new TouchAction(driver);
    }
 
    private boolean isWordPresentInSearch(List<WebElement> articles) {
