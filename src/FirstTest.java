@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -94,11 +95,19 @@ public class FirstTest {
       waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Object-oriented programming language']"),
             "Cannot find Object-oriented programming language", 5);
       waitForElementPresent(By.xpath("//*[@resource-id='org.wikipedia:id/view_page_title_text']"), "Cannot find article title", 10);
-
+      swipeUp(500);
+      swipeUp(500);
+      swipeUp(500);
+      swipeUp(500);
    }
 
    protected void swipeUp(int timeOfSwipe) {
       TouchAction action = new TouchAction(driver);
+      Dimension size = driver.manage().window().getSize();//получили размеры экрана
+      int x = size.width / 2;
+      int startY = (int) (size.height * 0.8);
+      int endY = (int) (size.height * 0.2);
+      action.press(x, startY).waitAction(timeOfSwipe).moveTo(x, endY).release().perform();
    }
 
    private boolean isWordPresentInSearch(List<WebElement> articles) {
