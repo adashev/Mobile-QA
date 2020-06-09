@@ -91,14 +91,11 @@ public class FirstTest {
    @Test
    public void testSwipeArticle() {
       waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/search_container']"), "Cannot find Search Wikipedia", 10);
-      waitForElementAndSendKeys(By.xpath("//*[contains(@text, 'Search…')]"), "Java", "Cannot find search field", 5);
-      waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Object-oriented programming language']"),
-            "Cannot find Object-oriented programming language", 5);
+      waitForElementAndSendKeys(By.xpath("//*[contains(@text, 'Search…')]"), "Appium", "Cannot find search field", 5);
+      waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_title'][@text='Appium']"),
+            "Cannot find 'Appium'", 5);
       waitForElementPresent(By.xpath("//*[@resource-id='org.wikipedia:id/view_page_title_text']"), "Cannot find article title", 10);
-      swipeUp(500);
-      swipeUp(500);
-      swipeUp(500);
-      swipeUp(500);
+      swipeUpToFindElement(By.xpath("//*[@text='View page in browser']"), "test error message", 5);
    }
 
    protected void swipeUp(int timeOfSwipe) {
@@ -108,6 +105,24 @@ public class FirstTest {
       int startY = (int) (size.height * 0.8);
       int endY = (int) (size.height * 0.2);
       action.press(x, startY).waitAction(timeOfSwipe).moveTo(x, endY).release().perform();
+   }
+
+   protected void swipeUpQuick() {
+      swipeUp(200);
+   }
+
+   protected void swipeUpToFindElement(By by, String error_message, int maxSwipes) {
+      int alreadySwiped = 0;
+      driver.findElements(by).size();
+      while (driver.findElements(by).size() == 0) {
+         if (alreadySwiped > maxSwipes) {
+            waitForElementPresent(by, "Cannot find element by swiping up. \n" + error_message, 0);
+            return;
+         }
+
+         swipeUpQuick();
+         ++alreadySwiped;
+      }
    }
 
    private boolean isWordPresentInSearch(List<WebElement> articles) {
