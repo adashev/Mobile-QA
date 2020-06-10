@@ -95,7 +95,7 @@ public class FirstTest {
       waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_title'][@text='Appium']"),
             "Cannot find 'Appium'", 5);
       waitForElementPresent(By.xpath("//*[@resource-id='org.wikipedia:id/view_page_title_text']"), "Cannot find article title", 10);
-      swipeUpToFindElement(By.xpath("//*[@text='View page in browser']"), "test error message", 5);
+      swipeUpToFindElement(By.xpath("//*[@text='View page in browser']"), "Cannot find the end of the article", 20);
    }
 
    protected void swipeUp(int timeOfSwipe) {
@@ -108,7 +108,7 @@ public class FirstTest {
    }
 
    protected void swipeUpQuick() {
-      swipeUp(200);
+      swipeUp(500);
    }
 
    protected void swipeUpToFindElement(By by, String error_message, int maxSwipes) {
@@ -116,10 +116,9 @@ public class FirstTest {
       driver.findElements(by).size();
       while (driver.findElements(by).size() == 0) {
          if (alreadySwiped > maxSwipes) {
-            waitForElementPresent(by, "Cannot find element by swiping up. \n" + error_message, 0);
+            waitForElementPresent(by, "Cannot find element by swiping up.\n" + error_message, 0);
             return;
          }
-
          swipeUpQuick();
          ++alreadySwiped;
       }
