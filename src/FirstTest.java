@@ -98,6 +98,22 @@ public class FirstTest {
       swipeUpToFindElement(By.xpath("//*[@text='View page in browser']"), "Cannot find the end of the article", 20);
    }
 
+   @Test
+   public void testSaveArticleToMyList() {
+      waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/search_container']"), "Cannot find Search Wikipedia", 10);
+      waitForElementAndSendKeys(By.xpath("//*[contains(@text, 'Search…')]"), "Java", "Cannot find search field", 5);
+      waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Object-oriented programming language']"),
+            "Cannot find Object-oriented programming language", 5);
+      waitForElementPresent(By.xpath("//*[@resource-id='org.wikipedia:id/view_page_title_text']"),
+            "Cannot find article title", 10);
+      waitForElementAndClick(By.xpath("//android.widget.ImageView[@content-desc='More options']"),
+            "Cannot find button to open article options", 5);
+      waitForElementAndClick(By.xpath("//*[@text='Add to reading list'"),
+            "Cannot find option", 5);
+      waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/onboarding_button']"),
+            "Cannot find 'Goi it'", 5);
+   }
+
    protected void swipeUp(int timeOfSwipe) {
       TouchAction action = new TouchAction(driver);
       Dimension size = driver.manage().window().getSize();//получили размеры экрана
