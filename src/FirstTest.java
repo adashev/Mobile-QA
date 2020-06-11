@@ -108,7 +108,7 @@ public class FirstTest {
             "Cannot find article title", 10);
       waitForElementAndClick(By.xpath("//android.widget.ImageView[@content-desc='More options']"),
             "Cannot find button to open article options", 5);
-      waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/title'][@text='Add to reading list'"),
+      waitForElementAndClick(By.xpath("//*[contains(@text, 'Add to reading list')]"),
             "Cannot find option", 5);
       waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/onboarding_button']"),
             "Cannot find 'Goi it'", 5);
