@@ -102,7 +102,8 @@ public class FirstTest {
    public void testSaveArticleToMyList() {
       waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/search_container']"), "Cannot find Search Wikipedia", 10);
       waitForElementAndSendKeys(By.xpath("//*[contains(@text, 'Search…')]"), "Java", "Cannot find search field", 5);
-      waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Object-oriented programming language']"),
+      waitForElementAndClick(By
+                  .xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Object-oriented programming language']"),
             "Cannot find Object-oriented programming language", 5);
       waitForElementPresent(By.xpath("//*[@resource-id='org.wikipedia:id/view_page_title_text']"),
             "Cannot find article title", 10);
@@ -112,24 +113,24 @@ public class FirstTest {
             "Cannot find option", 5);
       waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/onboarding_button']"),
             "Cannot find 'Goi it'", 5);
-      /*waitForElementAndClick(By.xpath("//android.widget.TextView[@text='Create new']"),
-            "Cannot find 'Create new'", 5);*/
       waitForElementAndClear(By.xpath("//*[@resource-id='org.wikipedia:id/text_input']"),
             "Cannot find text input", 5);
+      String foldersName = "Learning Java";
       waitForElementAndSendKeys(By.xpath("//*[@resource-id='org.wikipedia:id/text_input']"),
-            "Learning Java", "Cannot find text input", 5);
+            foldersName, "Cannot find text input", 5);
       waitForElementAndClick(By.xpath("//*[@resource-id='android:id/button1'][@text='OK']"),
             "Cannot press OK", 5);
       waitForElementAndClick(By.xpath("//android.widget.ImageButton[@content-desc='Navigate up']"),
             "Cannot find X link", 5);
       waitForElementAndClick(By.xpath("//android.widget.FrameLayout[@content-desc='My lists']"),
             "Cannot find 'My lists'", 5);
-      waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/item_title'][@text='Learning Java']"),
+      waitForElementAndClick(By.xpath(String.format("//*[contains(@text, '%s')]", foldersName)),
             "Cannot find created folder", 5);
-      swipeElementToLeft(By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_title'][@text='Java (programming language)']"),
+      String article = "Java (programming language)";
+      swipeElementToLeft(By.xpath(String.format("//*[contains(@text, '%s')]", article)),
             "Cannot find saved article");
-      waitForElementNotPresent(By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_title'][@text='Java (programming language)']"),
-            "Cannot delete saved article", 5);
+      waitForElementNotPresent(By.xpath(String.format("//*[@resource-id='org.wikipedia:id/page_list_item_title'][@text='%s']", article)),
+            "Cannot delete saved article", 10);
    }
 
    protected void swipeElementToLeft(By by, String error_message) {
@@ -140,7 +141,7 @@ public class FirstTest {
       int lowerY = upperY + element.getSize().getHeight();
       int middleY = (upperY + lowerY) / 2;
       TouchAction action = new TouchAction(driver);
-      action.press(rightX, middleY).waitAction(150).moveTo(leftX, middleY).release().perform();
+      action.press(rightX, middleY).waitAction(300).moveTo(leftX, middleY).release().perform();
    }
 
    protected void swipeUp(int timeOfSwipe) {
