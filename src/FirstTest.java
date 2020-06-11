@@ -108,10 +108,39 @@ public class FirstTest {
             "Cannot find article title", 10);
       waitForElementAndClick(By.xpath("//android.widget.ImageView[@content-desc='More options']"),
             "Cannot find button to open article options", 5);
-      waitForElementAndClick(By.xpath("//*[@text='Add to reading list'"),
+      waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/title'][@text='Add to reading list'"),
             "Cannot find option", 5);
       waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/onboarding_button']"),
             "Cannot find 'Goi it'", 5);
+      /*waitForElementAndClick(By.xpath("//android.widget.TextView[@text='Create new']"),
+            "Cannot find 'Create new'", 5);*/
+      waitForElementAndClear(By.xpath("//*[@resource-id='org.wikipedia:id/text_input']"),
+            "Cannot find text input", 5);
+      waitForElementAndSendKeys(By.xpath("//*[@resource-id='org.wikipedia:id/text_input']"),
+            "Learning Java", "Cannot find text input", 5);
+      waitForElementAndClick(By.xpath("//*[@resource-id='android:id/button1'][@text='OK']"),
+            "Cannot press OK", 5);
+      waitForElementAndClick(By.xpath("//android.widget.ImageButton[@content-desc='Navigate up']"),
+            "Cannot find X link", 5);
+      waitForElementAndClick(By.xpath("//android.widget.FrameLayout[@content-desc='My lists']"),
+            "Cannot find 'My lists'", 5);
+      waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/item_title'][@text='Learning Java']"),
+            "Cannot find created folder", 5);
+      swipeElementToLeft(By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_title'][@text='Java (programming language)']"),
+            "Cannot find saved article");
+      waitForElementNotPresent(By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_title'][@text='Java (programming language)']"),
+            "Cannot delete saved article", 5);
+   }
+
+   protected void swipeElementToLeft(By by, String error_message) {
+      WebElement element = waitForElementPresent(by, error_message, 10);
+      int leftX = element.getLocation().getX();
+      int rightX = leftX + element.getSize().getWidth();
+      int upperY = element.getLocation().getY();
+      int lowerY = upperY + element.getSize().getHeight();
+      int middleY = (upperY + lowerY) / 2;
+      TouchAction action = new TouchAction(driver);
+      action.press(rightX, middleY).waitAction(150).moveTo(leftX, middleY).release().perform();
    }
 
    protected void swipeUp(int timeOfSwipe) {
