@@ -133,6 +133,22 @@ public class FirstTest {
             "Cannot delete saved article", 10);
    }
 
+   @Test
+   public void testAmountOfNotEmptySearch() {
+      waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/search_container']"), "Cannot find Search Wikipedia", 10);
+      String searchLine = "Linkin Park discography";
+      waitForElementAndSendKeys(By.xpath("//*[contains(@text, 'Search…')]"), searchLine, "Cannot find search field", 5);
+      String searchResults = "//*[@resource-id='org.wikipedia:id/search_results_list']/*[@resource-id='org.wikipedia:id/page_list_item_container']";
+      waitForElementPresent(By.xpath(searchResults), "Cannot find anything by the request", 15);
+      int amountSearchResults = getAmountOfElements(By.xpath(searchResults));
+      Assert.assertTrue("We found too few results", amountSearchResults > 0);
+
+   }
+
+   private int getAmountOfElements(By by) {
+      return driver.findElements(by).size();
+   }
+
    protected void swipeElementToLeft(By by, String error_message) {
       WebElement element = waitForElementPresent(by, error_message, 10);
       int leftX = element.getLocation().getX();
