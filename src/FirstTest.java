@@ -166,6 +166,11 @@ public class FirstTest {
             "Cannot find 'Object-oriented programming language' topic searching by " + searchLine, 15);
    }
 
+   private String waitForElementAndGetAttribute(By by, String attribute, String error_message, long timeout) {
+      WebElement element = waitForElementPresent(by, error_message, timeout);
+      return element.getAttribute(attribute);
+   }
+
    private void assetElementNotPresent(By by, String error_message) {
       int amountOfElements = getAmountOfElements(by);
       if (amountOfElements > 0) {
