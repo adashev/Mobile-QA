@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -164,11 +165,21 @@ public class FirstTest {
       waitForElementAndClick(By
                   .xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Object-oriented programming language']"),
             "Cannot find 'Object-oriented programming language' topic searching by " + searchLine, 15);
+      String titleBeforeRotation = waitForElementAndGetAttribute(By.xpath("//*[@resource-id='org.wikipedia:id/view_page_title_text']"),
+            "Cannot find title of article", 15);
+      driver.rotate(ScreenOrientation.LANDSCAPE);
+      String titleAfterRotation = waitForElementAndGetAttribute(By.xpath("//*[@resource-id='org.wikipedia:id/view_page_title_text']"),
+            "Cannot find title of article", 15);
+      Assert.assertEquals("Article title have been changed after scrcer rotation", titleBeforeRotation, titleAfterRotation);
+      driver.rotate(ScreenOrientation.PORTRAIT);
+      String titleAfterSecondRotation = waitForElementAndGetAttribute(By.xpath("//*[@resource-id='org.wikipedia:id/view_page_title_text']"),
+            "Cannot find title of article", 15);
+      Assert.assertEquals("Article title have been changed after scrcer rotation", titleBeforeRotation, titleAfterSecondRotation);
    }
 
-   private String waitForElementAndGetAttribute(By by, String attribute, String error_message, long timeout) {
+   private String waitForElementAndGetAttribute(By by, String error_message, long timeout) {
       WebElement element = waitForElementPresent(by, error_message, timeout);
-      return element.getAttribute(attribute);
+      return element.getText();
    }
 
    private void assetElementNotPresent(By by, String error_message) {
