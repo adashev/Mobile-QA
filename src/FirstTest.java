@@ -145,6 +145,25 @@ public class FirstTest {
 
    }
 
+   @Test
+   public void testAmountOfEmptySearch() {
+      waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/search_container']"), "Cannot find Search Wikipedia", 10);
+      String searchLine = "fngjntzj";
+      waitForElementAndSendKeys(By.xpath("//*[contains(@text, 'Search…')]"), searchLine, "Cannot find search field", 5);
+      String results = "//*[@resource-id='org.wikipedia:id/search_results_list']/*[@resource-id='org.wikipedia:id/page_list_item_container']";
+      String resultsEmptyLabel = "//*[@text='No results found']";
+      waitForElementPresent(By.xpath(resultsEmptyLabel), "Cannot find empty result by the request " + searchLine, 15);
+      assetElementNotPresent(By.xpath(results), "We'му found some results " + searchLine);
+   }
+
+   private void assetElementNotPresent(By by, String error_message) {
+      int amountOfElements = getAmountOfElements(by);
+      if (amountOfElements > 0) {
+         String message = "An element '" + by.toString() + "\'supposed to ne not present";
+         throw new AssertionError(message + " " + error_message);
+      }
+   }
+
    private int getAmountOfElements(By by) {
       return driver.findElements(by).size();
    }
