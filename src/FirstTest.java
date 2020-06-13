@@ -156,6 +156,16 @@ public class FirstTest {
       assetElementNotPresent(By.xpath(results), "We'му found some results " + searchLine);
    }
 
+   @Test
+   public void testChangeScreenOrientation() {
+      waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/search_container']"), "Cannot find Search Wikipedia", 10);
+      String searchLine = "Java";
+      waitForElementAndSendKeys(By.xpath("//*[contains(@text, 'Search…')]"), searchLine, "Cannot find search field", 5);
+      waitForElementAndClick(By
+                  .xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Object-oriented programming language']"),
+            "Cannot find 'Object-oriented programming language' topic searching by " + searchLine, 15);
+   }
+
    private void assetElementNotPresent(By by, String error_message) {
       int amountOfElements = getAmountOfElements(by);
       if (amountOfElements > 0) {
