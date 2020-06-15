@@ -177,6 +177,19 @@ public class FirstTest {
       Assert.assertEquals("Article title have been changed after scrcer rotation", titleBeforeRotation, titleAfterSecondRotation);
    }
 
+   @Test
+   public void testCheckSearchArticleInBackGround() {
+      waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/search_container']"), "Cannot find Search Wikipedia", 10);
+      waitForElementAndSendKeys(By.xpath("//*[contains(@text, 'Search…')]"), "Java", "Cannot find search field", 5);
+      waitForElementPresent(By
+                  .xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Object-oriented programming language']"),
+            "Cannot find Object-oriented programming language", 5);
+      driver.runAppInBackground(3);
+      waitForElementPresent(By
+                  .xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Object-oriented programming language']"),
+            "Cannot find article after returning from background", 5);
+   }
+
    private String waitForElementAndGetAttribute(By by, String error_message, long timeout) {
       WebElement element = waitForElementPresent(by, error_message, timeout);
       return element.getText();
