@@ -136,18 +136,11 @@ public class FirstTest {
 
    @Test
    public void testSaveTwoArticlesToMyListEx5() {
-      /*1. Сохраняет две статьи в одну папку
-      2. Удаляет одну из статей
-      3. Убеждается, что вторая осталась
-      4. Переходит в неё и убеждается, что title совпадает*/
       addArticleToReadingList("Толстой", "Leo Tolstoy");
-      //щелкнем на 'Goi it'
       waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/onboarding_button']"),
             "Cannot find 'Goi it'", 5);
-      //очистим дефолтное имя папки
       waitForElementAndClear(By.xpath("//*[@resource-id='org.wikipedia:id/text_input']"), "Cannot find text input", 5);
       String foldersName = "Russian writers";
-      //введем свое имя папки "Russian writers"
       waitForElementAndSendKeys(By.xpath("//*[@resource-id='org.wikipedia:id/text_input']"),
             foldersName, "Cannot find text input", 5);
       waitForElementAndClick(By.xpath("//*[@resource-id='android:id/button1'][@text='OK']"),
@@ -163,29 +156,24 @@ public class FirstTest {
             "Cannot find 'My lists'", 5);
       waitForElementAndClick(By.xpath(String.format("//*[contains(@text, '%s')]", foldersName)),
             "Cannot find created folder", 5);
-      //2. Удалим одну из статей
       List<WebElement> listElements = waitForElementsPresent(By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_action_primary']"), "Cannot find list", 10);
       listElements.get(1).click();
       waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/reading_list_item_remove_text']"),
-            "Cannot find 'Remove from' item", 5);
+            "Cannot find 'Remove from ... ' item", 5);
+      waitForElementPresent(By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_title'][@text='Anton Chekhov']"),
+            "Cannot find 'Anton Chekhov' link", 5);
    }
 
    private void addArticleToReadingList(String searchName, String linksName) {
-      // введем в Поиск Толстой
       waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/search_container']"), "Cannot find Search Wikipedia", 10);
       waitForElementAndSendKeys(By.xpath("//*[contains(@text, 'Search…')]"), searchName, "Cannot find search field", 5);
-      // в поисковой выдаче щелкнем на Leo Tolstoy
       waitForElementAndClick(By.xpath(String.format("//*[@resource-id='org.wikipedia:id/page_list_item_title'][@text='%s']", linksName)),
             "Cannot find 'Leo Tolstoy' link", 5);
-      // проверим, что перешли на статью 'Leo Tolstoy'
       waitForElementPresent(By.xpath(String.format("//*[@resource-id='org.wikipedia:id/view_page_title_text'][@text='%s']", linksName)),
             "Cannot find article title", 10);
-      //раскроем меню 'More options'
       waitForElementAndClick(By.xpath("//android.widget.ImageView[@content-desc='More options']"),
             "Cannot find button to open article options", 5);
-      // щелкнем на 'Add to reading list'
-      waitForElementAndClick(By.xpath("//*[contains(@text, 'Add to reading list')]"),
-            "Cannot find option", 5);
+      waitForElementAndClick(By.xpath("//*[contains(@text, 'Add to reading list')]"), "Cannot find option", 5);
    }
 
    @Test
