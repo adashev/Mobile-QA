@@ -137,16 +137,13 @@ public class FirstTest {
    @Test
    public void testSaveTwoArticlesToMyListEx5() {
       addArticleToReadingList("Толстой", "Leo Tolstoy");
-      waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/onboarding_button']"),
-            "Cannot find 'Goi it'", 5);
+      waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/onboarding_button']"), "Cannot find 'Goi it'", 5);
       waitForElementAndClear(By.xpath("//*[@resource-id='org.wikipedia:id/text_input']"), "Cannot find text input", 5);
       String foldersName = "Russian writers";
       waitForElementAndSendKeys(By.xpath("//*[@resource-id='org.wikipedia:id/text_input']"),
             foldersName, "Cannot find text input", 5);
-      waitForElementAndClick(By.xpath("//*[@resource-id='android:id/button1'][@text='OK']"),
-            "Cannot press OK", 5);
-      waitForElementAndClick(By.xpath("//android.widget.ImageButton[@content-desc='Navigate up']"),
-            "Cannot find X link", 5);
+      waitForElementAndClick(By.xpath("//*[@resource-id='android:id/button1'][@text='OK']"), "Cannot press OK", 5);
+      waitForElementAndClick(By.xpath("//android.widget.ImageButton[@content-desc='Navigate up']"), "Cannot find X link", 5);
       addArticleToReadingList("Чехов", "Anton Chekhov");
       waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/item_title'][@text='Russian writers']"),
             "Cannot find the folders button", 5);
@@ -162,6 +159,22 @@ public class FirstTest {
             "Cannot find 'Remove from ... ' item", 5);
       waitForElementPresent(By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_title'][@text='Anton Chekhov']"),
             "Cannot find 'Anton Chekhov' link", 5);
+   }
+
+   @Test
+   public void assertTitleEx6() {
+      waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/search_container']"), "Cannot find Search Wikipedia", 10);
+      waitForElementAndSendKeys(By.xpath("//*[contains(@text, 'Search…')]"), "Java", "Cannot find search field", 5);
+      String articlesName = "Object-oriented programming language";
+      waitForElementAndClick(By.xpath(String.format("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='%s']", articlesName)),
+            String.format("Cannot find article %s", articlesName), 5);
+      assertElementPresent(By.xpath("//*[@resource-id='org.wikipedia:id/view_page_title_text'][@text='Java (programming language)']"),
+            String.format("Cannot find article title '%s'", articlesName));
+   }
+
+   private void assertElementPresent(By by, String error_message) {
+      List<WebElement> elements = driver.findElements(by);
+      Assert.assertFalse(error_message, elements.isEmpty());
    }
 
    private void addArticleToReadingList(String searchName, String linksName) {
