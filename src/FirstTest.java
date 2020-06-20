@@ -140,7 +140,7 @@ public class FirstTest extends CoreTestCase {
    }
 
    @Test
-   public void testAssertTitleEx6() {
+   public void testAssertTitleExistEx6() {
       mainPageObject.waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/search_container']"), "Cannot find Search Wikipedia", 10);
       mainPageObject.waitForElementAndSendKeys(By.xpath("//*[contains(@text, 'Search…')]"), "Java", "Cannot find search field", 5);
       String articlesName = "Object-oriented programming language";
