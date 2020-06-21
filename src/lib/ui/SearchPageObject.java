@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 public class SearchPageObject extends MainPageObject {
    private static final String
          SEARCH_INIT_ELEMENT = "//*[contains(@text, 'Search Wikipedia')]",
+         SEARCH_CANCEL_BUTTON = "//*[@resource-id='org.wikipedia:id/search_close_btn']",
          SEARCH_INPUT = "//*[@resource-id='org.wikipedia:id/search_src_text']",
          SEARCH_RESULT_BY_SUBSTR_TPL = "//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='{SUBSTR}']";
 
@@ -15,6 +16,14 @@ public class SearchPageObject extends MainPageObject {
 
    private static String getSearchResultElement(String substring) {
       return SEARCH_RESULT_BY_SUBSTR_TPL.replace("{SUBSTR}", substring);
+   }
+
+   public void waitForCancelButtonToAppear() {
+      this.waitForElementPresent(By.xpath(SEARCH_CANCEL_BUTTON), "Cannot find search cancel button", 5);
+   }
+
+   public void waitForCancelButtonToDisappear() {
+      this.waitForElementNotPresent(By.xpath(SEARCH_CANCEL_BUTTON), "Search cancel button is still present", 5);
    }
 
    public void initSearchInput() {
