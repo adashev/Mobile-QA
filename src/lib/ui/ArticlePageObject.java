@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 public class ArticlePageObject extends MainPageObject {
+   private static final String TITLE = "//*[@resource-id='org.wikipedia:id/view_page_title_text']";
 
    public ArticlePageObject(AppiumDriver driver) {
       super(driver);
@@ -12,6 +13,11 @@ public class ArticlePageObject extends MainPageObject {
 
    public WebElement waitForTitleElement() {
       return this
-            .waitForElementPresent(By.xpath("//*[@resource-id='org.wikipedia:id/view_page_title_text']"), "Cannot find article title on page", 15);
+            .waitForElementPresent(By.xpath(TITLE), "Cannot find article title on page", 15);
+   }
+
+   public String getArticleTitle() {
+      WebElement element = waitForTitleElement();
+      return element.getText();
    }
 }

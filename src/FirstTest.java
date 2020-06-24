@@ -1,4 +1,5 @@
 import lib.CoreTestCase;
+import lib.ui.ArticlePageObject;
 import lib.ui.MainPageObject;
 import lib.ui.SearchPageObject;
 import org.junit.Assert;
@@ -40,10 +41,9 @@ public class FirstTest extends CoreTestCase {
       searchPageObject.initSearchInput();
       searchPageObject.typeSearchLine("Java");
       searchPageObject.clickByArticleWithSubstring("Object-oriented programming language");
-
-      WebElement titleElement = mainPageObject.waitForElementPresent(By.xpath("//*[@resource-id='org.wikipedia:id/view_page_title_text']"),
-            "Cannot find article title", 10);
-      String articleTitle = titleElement.getText();
+      ArticlePageObject articlePageObject = new ArticlePageObject(driver);
+      articlePageObject.waitForTitleElement();
+      String articleTitle = articlePageObject.getArticleTitle();
       Assert.assertEquals("Unexpected title!", "Java (programming language)", articleTitle);
    }
 
