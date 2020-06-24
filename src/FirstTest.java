@@ -29,18 +29,18 @@ public class FirstTest extends CoreTestCase {
    public void testCancelSearch() {
       SearchPageObject searchPageObject = new SearchPageObject(driver);
       searchPageObject.initSearchInput();
-      searchPageObject.typeSearchLine("Java");
-
-      mainPageObject.waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/search_close_btn']"), "Cannot find X", 10);
-      mainPageObject.waitForElementNotPresent(By.xpath("//*[@resource-id='org.wikipedia:id/search_close_btn']"), "X is still present on the page", 5);
+      searchPageObject.waitForCancelButtonToAppear();
+      searchPageObject.clickCancelSesarch();
+      searchPageObject.waitForCancelButtonToDisappear();
    }
 
    @Test
    public void testCompareArticleTitle() {
-      mainPageObject.waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/search_container']"), "Cannot find Search Wikipedia", 10);
-      mainPageObject.waitForElementAndSendKeys(By.xpath("//*[contains(@text, 'Search…')]"), "Java", "Cannot find search field", 5);
-      mainPageObject.waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Object-oriented programming language']"),
-            "Cannot find Object-oriented programming language", 5);
+      SearchPageObject searchPageObject = new SearchPageObject(driver);
+      searchPageObject.initSearchInput();
+      searchPageObject.typeSearchLine("Java");
+      searchPageObject.clickByArticleWithSubstring("Object-oriented programming language");
+
       WebElement titleElement = mainPageObject.waitForElementPresent(By.xpath("//*[@resource-id='org.wikipedia:id/view_page_title_text']"),
             "Cannot find article title", 10);
       String articleTitle = titleElement.getText();

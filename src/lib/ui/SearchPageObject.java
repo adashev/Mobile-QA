@@ -26,6 +26,10 @@ public class SearchPageObject extends MainPageObject {
       this.waitForElementNotPresent(By.xpath(SEARCH_CANCEL_BUTTON), "Search cancel button is still present", 5);
    }
 
+   public void clickCancelSesarch() {
+      this.waitForElementAndClick(By.xpath(SEARCH_CANCEL_BUTTON), "Cannot click search cancel button", 5);
+   }
+
    public void initSearchInput() {
       this.waitForElementAndClick(By.xpath(SEARCH_INIT_ELEMENT), "Cannot find Search Wikipedia", 5);
       this.waitForElementPresent(By.xpath(SEARCH_INPUT), "Cannot find input after clicking search init element");
@@ -38,6 +42,11 @@ public class SearchPageObject extends MainPageObject {
    public void waitForSearchResult(String substring) {
       String searchResultXpath = getSearchResultElement(substring);
       this.waitForElementPresent(By.xpath(searchResultXpath), "Cannot find search result with substring " + substring);
+   }
+
+   public void clickByArticleWithSubstring(String substr) {
+      String searchResultXpath = getSearchResultElement(substr);
+      this.waitForElementAndClick(By.xpath(searchResultXpath), "Cannot find and click search result with substring " + substr, 10);
    }
 
 }
