@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 
 public class ArticlePageObject extends MainPageObject {
    private static final String TITLE = "//*[@resource-id='org.wikipedia:id/view_page_title_text']";
+   private static final String FOOTER = "//*[@text='View page in browser']";
 
    public ArticlePageObject(AppiumDriver driver) {
       super(driver);
@@ -19,5 +20,9 @@ public class ArticlePageObject extends MainPageObject {
    public String getArticleTitle() {
       WebElement element = waitForTitleElement();
       return element.getText();
+   }
+
+   public void swipeToFooter() {
+      this.swipeUpToFindElement(By.xpath(FOOTER), "Cannot find the end of the article", 20);
    }
 }

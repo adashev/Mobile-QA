@@ -69,12 +69,13 @@ public class FirstTest extends CoreTestCase {
 
    @Test
    public void testSwipeArticle() {
-      mainPageObject.waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/search_container']"), "Cannot find Search Wikipedia", 10);
-      mainPageObject.waitForElementAndSendKeys(By.xpath("//*[contains(@text, 'Search…')]"), "Appium", "Cannot find search field", 5);
-      mainPageObject.waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_title'][@text='Appium']"),
-            "Cannot find 'Appium'", 5);
-      mainPageObject.waitForElementPresent(By.xpath("//*[@resource-id='org.wikipedia:id/view_page_title_text']"), "Cannot find article title", 10);
-      mainPageObject.swipeUpToFindElement(By.xpath("//*[@text='View page in browser']"), "Cannot find the end of the article", 20);
+      SearchPageObject searchPageObject = new SearchPageObject(driver);
+      searchPageObject.initSearchInput();
+      searchPageObject.typeSearchLine("Appium");
+      searchPageObject.clickByArticleWithSubstring("Appium");
+      ArticlePageObject articlePageObject = new ArticlePageObject(driver);
+      articlePageObject.waitForTitleElement();
+      articlePageObject.swipeToFooter();
    }
 
    @Test
