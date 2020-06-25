@@ -80,26 +80,16 @@ public class FirstTest extends CoreTestCase {
 
    @Test
    public void testSaveArticleToMyList() {
-      mainPageObject.waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/search_container']"), "Cannot find Search Wikipedia", 10);
-      mainPageObject.waitForElementAndSendKeys(By.xpath("//*[contains(@text, 'Search…')]"), "Java", "Cannot find search field", 5);
-      mainPageObject.waitForElementAndClick(By
-                  .xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Object-oriented programming language']"),
-            "Cannot find Object-oriented programming language", 5);
-      mainPageObject.waitForElementPresent(By.xpath("//*[@resource-id='org.wikipedia:id/view_page_title_text'][@text='Java (programming language)']"),
-            "Cannot find article Object-oriented programming language title", 10);
-      mainPageObject.waitForElementAndClick(By.xpath("//android.widget.ImageView[@content-desc='More options']"),
-            "Cannot find button to open article options", 5);
-      mainPageObject.waitForElementAndClick(By.xpath("//*[contains(@text, 'Add to reading list')]"),
-            "Cannot find option", 5);
-      mainPageObject.waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/onboarding_button']"),
-            "Cannot find 'Goi it'", 5);
-      mainPageObject.waitForElementAndClear(By.xpath("//*[@resource-id='org.wikipedia:id/text_input']"),
-            "Cannot find text input", 5);
+      SearchPageObject searchPageObject = new SearchPageObject(driver);
+      searchPageObject.initSearchInput();
+      searchPageObject.typeSearchLine("Java");
+      searchPageObject.clickByArticleWithSubstring("Object-oriented programming language");
+      ArticlePageObject articlePageObject = new ArticlePageObject(driver);
+      articlePageObject.waitForTitleElement();
+      String articleTitle = articlePageObject.getArticleTitle();
       String foldersName = "Learning Java";
-      mainPageObject.waitForElementAndSendKeys(By.xpath("//*[@resource-id='org.wikipedia:id/text_input']"),
-            foldersName, "Cannot find text input", 5);
-      mainPageObject.waitForElementAndClick(By.xpath("//*[@resource-id='android:id/button1'][@text='OK']"),
-            "Cannot press OK", 5);
+
+
       mainPageObject.waitForElementAndClick(By.xpath("//android.widget.ImageButton[@content-desc='Navigate up']"),
             "Cannot find X link", 5);
       mainPageObject.waitForElementAndClick(By.xpath("//android.widget.FrameLayout[@content-desc='My lists']"),
