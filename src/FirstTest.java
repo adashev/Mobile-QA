@@ -1,6 +1,7 @@
 import lib.CoreTestCase;
 import lib.ui.ArticlePageObject;
 import lib.ui.MainPageObject;
+import lib.ui.NavigationUI;
 import lib.ui.SearchPageObject;
 import org.junit.Assert;
 import org.junit.Test;
@@ -88,12 +89,11 @@ public class FirstTest extends CoreTestCase {
       articlePageObject.waitForTitleElement();
       String articleTitle = articlePageObject.getArticleTitle();
       String foldersName = "Learning Java";
+      articlePageObject.addArticleToMyList(foldersName);
+      articlePageObject.closeArticle();
+      NavigationUI navigationUI = new NavigationUI(driver);
+      navigationUI.clickMyLists();
 
-
-      mainPageObject.waitForElementAndClick(By.xpath("//android.widget.ImageButton[@content-desc='Navigate up']"),
-            "Cannot find X link", 5);
-      mainPageObject.waitForElementAndClick(By.xpath("//android.widget.FrameLayout[@content-desc='My lists']"),
-            "Cannot find 'My lists'", 5);
       mainPageObject.waitForElementAndClick(By.xpath(String.format("//*[contains(@text, '%s')]", foldersName)),
             "Cannot find created folder", 5);
       String article = "Java (programming language)";

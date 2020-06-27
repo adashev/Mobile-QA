@@ -5,8 +5,15 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 public class ArticlePageObject extends MainPageObject {
-   private static final String TITLE = "//*[@resource-id='org.wikipedia:id/view_page_title_text']";
-   private static final String FOOTER = "//*[@text='View page in browser']";
+   private static final String
+         TITLE = "//*[@resource-id='org.wikipedia:id/view_page_title_text']",
+         FOOTER = "//*[@text='View page in browser']",
+         OPRTIONS_BUTTON = "//android.widget.ImageView[@content-desc='More options']",
+         ADD_TO_LIST = "//*[contains(@text, 'Add to reading list')]",
+         ADD_TO_LIST_OVERLAY = "//*[@resource-id='org.wikipedia:id/onboarding_button']",
+         MY_LIST_NAME_INPUT = "//*[@resource-id='org.wikipedia:id/text_input']",
+         OK_BUTTON = "//*[@resource-id='android:id/button1'][@text='OK']",
+         CLOSE_ARTICLE_BUTTON = "//android.widget.ImageButton[@content-desc='Navigate up']";
 
    public ArticlePageObject(AppiumDriver driver) {
       super(driver);
@@ -27,17 +34,22 @@ public class ArticlePageObject extends MainPageObject {
    }
 
    public void addArticleToMyList(String foldersName) {
-      this.waitForElementAndClick(By.xpath("//android.widget.ImageView[@content-desc='More options']"),
+      this.waitForElementAndClick(By.xpath(OPRTIONS_BUTTON),
             "Cannot find button to open article options", 5);
-      this.waitForElementAndClick(By.xpath("//*[contains(@text, 'Add to reading list')]"),
+      this.waitForElementAndClick(By.xpath(ADD_TO_LIST),
             "Cannot find option", 5);
-      this.waitForElementAndClick(By.xpath("//*[@resource-id='org.wikipedia:id/onboarding_button']"),
+      this.waitForElementAndClick(By.xpath(ADD_TO_LIST_OVERLAY),
             "Cannot find 'Goi it'", 5);
-      this.waitForElementAndClear(By.xpath("//*[@resource-id='org.wikipedia:id/text_input']"),
+      this.waitForElementAndClear(By.xpath(MY_LIST_NAME_INPUT),
             "Cannot find text input", 5);
-      this.waitForElementAndSendKeys(By.xpath("//*[@resource-id='org.wikipedia:id/text_input']"),
+      this.waitForElementAndSendKeys(By.xpath(MY_LIST_NAME_INPUT),
             foldersName, "Cannot find text input", 5);
-      this.waitForElementAndClick(By.xpath("//*[@resource-id='android:id/button1'][@text='OK']"),
+      this.waitForElementAndClick(By.xpath(OK_BUTTON),
             "Cannot press OK", 5);
    }
+
+   public void closeArticle() {
+      this.waitForElementAndClick(By.xpath(CLOSE_ARTICLE_BUTTON), "Cannot find X link", 5);
+   }
 }
+
