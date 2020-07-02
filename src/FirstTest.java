@@ -1,8 +1,5 @@
 import lib.CoreTestCase;
-import lib.ui.ArticlePageObject;
-import lib.ui.MainPageObject;
-import lib.ui.NavigationUI;
-import lib.ui.SearchPageObject;
+import lib.ui.*;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -80,7 +77,7 @@ public class FirstTest extends CoreTestCase {
    }
 
    @Test
-   public void testSaveArticleToMyList() {
+   public void testSaveArticleToMyList() throws InterruptedException {
       SearchPageObject searchPageObject = new SearchPageObject(driver);
       searchPageObject.initSearchInput();
       searchPageObject.typeSearchLine("Java");
@@ -93,14 +90,9 @@ public class FirstTest extends CoreTestCase {
       articlePageObject.closeArticle();
       NavigationUI navigationUI = new NavigationUI(driver);
       navigationUI.clickMyLists();
-
-      mainPageObject.waitForElementAndClick(By.xpath(String.format("//*[contains(@text, '%s')]", foldersName)),
-            "Cannot find created folder", 5);
-      String article = "Java (programming language)";
-      mainPageObject.swipeElementToLeft(By.xpath(String.format("//*[contains(@text, '%s')]", article)),
-            "Cannot find saved article");
-      mainPageObject.waitForElementNotPresent(By.xpath(String.format("//*[@resource-id='org.wikipedia:id/page_list_item_title'][@text='%s']", article)),
-            "Cannot delete saved article", 10);
+      MyListsPageObject myListsPageObject = new MyListsPageObject(driver);
+      myListsPageObject.openFolderByName(foldersName);
+      myListsPageObject.swipeByArticleToDelete(articleTitle);
    }
 
    @Test
